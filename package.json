@@ -1,0 +1,33 @@
+{
+  "name": "bitcoin-node-server",
+  "version": "1.0.0",
+  "description": "Bitcoin server providing blockchain info and mempool monitoring",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josematute/bitcoin-node-server.git"
+  },
+  "keywords": [
+    "bitcoin",
+    "express",
+    "nodejs",
+    "blockchain",
+    "mempool"
+  ],
+  "author": "jeg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/josematute/bitcoin-node-server/issues"
+  },
+  "homepage": "https://github.com/josematute/bitcoin-node-server#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
