@@ -1,10 +1,11 @@
-require("dotenv").config()
-const connectToDatabase = require("./db/connect")
+import dotenv from "dotenv";
+import express from "express";
+import { connectToDatabase } from "../db/connect";
 
-// Initialize Supabase client
+dotenv.config();
+
 const supabase = connectToDatabase()
 
-const express = require("express")
 const app = express()
 const port = process.env.PORT || 8080
 
@@ -22,8 +23,12 @@ const start = async () => {
 		app.listen(port, () => {
 			console.log(`✨ Server is running on port ${port}`)
 		})
-	} catch (e) {
-		console.error("❌ Error during startup:", e.message)
+	} catch (e: unknown) {
+		if (e instanceof Error) {
+			console.error("❌ Error during startup:", e.message)
+		} else {
+			console.error("❌ Error during startup:", e)
+		}
 		process.exit(1)
 	}
 }
