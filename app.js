@@ -4,10 +4,28 @@ const connectToDatabase = require("./db/connect")
 // Initialize Supabase client
 const supabase = connectToDatabase()
 
-console.log(supabase)
+const express = require("express")
+const app = express()
+const port = process.env.PORT || 8080
 
-// Now you can use supabase client in your app
-// Example:
-// const { data, error } = await supabase
-//   .from('your_table')
-//   .select()
+const start = async () => {
+	try {
+		console.log("🔄 Connecting to Supabase...")
+
+		if (!supabase) {
+			throw new Error("Failed to initialize Supabase client")
+		}
+
+		console.log("✅ Successfully connected to Supabase!")
+		console.log("🚀 Starting server...")
+
+		app.listen(port, () => {
+			console.log(`✨ Server is running on port ${port}`)
+		})
+	} catch (e) {
+		console.error("❌ Error during startup:", e.message)
+		process.exit(1)
+	}
+}
+
+start()
