@@ -25,7 +25,9 @@
   },
   "homepage": "https://github.com/josematute/bitcoin-node-server#readme",
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "concurrently": "^9.1.2",
+    "nodemon": "^3.1.9",
+    "typescript": "^5.8.2"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.3",
