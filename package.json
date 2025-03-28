@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsoa spec-and-routes && npx tsc",
     "dev": "concurrently \"npx tsc -w\" \"nodemon dist/src/app.js\""
   },
   "repository": {
@@ -33,6 +34,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.49.3",
     "dotenv": "^16.4.7",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "tsoa": "^6.6.0"
   }
 }
