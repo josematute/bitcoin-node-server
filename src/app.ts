@@ -39,7 +39,7 @@ const start = async () => {
 		console.log("🚀 Starting server...");
 
 		app.listen(port, () => {
-			console.log(`✨ Serverr is running on port ${port}...`);
+			console.log(`✨ Server is running on port ${port}...`);
 		});
 	} catch (e: unknown) {
 		if (e instanceof Error) {

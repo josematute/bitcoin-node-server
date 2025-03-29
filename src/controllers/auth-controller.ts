@@ -32,4 +32,3 @@ export class AuthController extends Controller {
     return Promise.resolve();
   }
 }
-

@@ -1,7 +1,80 @@
+import jwt from "jsonwebtoken";
+import { PrismaClient } from "@prisma/client";
+import { UnauthorizedError } from "../errors";
+import AuthenticatedUser from "./models/authenticated-user";
+import { Request } from "express";
+
+const prisma = new PrismaClient();
+
 export async function expressAuthentication(
-  _req: any,
-  _securityName: string,
+  req: Request,
+  securityName: string,
   _scopes?: string[]
-): Promise<void> {
-  return Promise.resolve();
+): Promise<AuthenticatedUser> {
+  // grab the token out of the HTTP header
+  const authHeader = req.headers.authorization
+
+  if (!authHeader) {
+    throw new UnauthorizedError();
+  }
+
+  const isBearer = authHeader.startsWith("Bearer ");
+
+  if (!authHeader || !isBearer) {
+    throw new UnauthorizedError();
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  if (securityName == "jwt") {
+    try {
+      // do not ignore the expiration
+      return await jwtAuth(token, false);
+    } catch (error) {
+      throw new UnauthorizedError();
+    }
+  } else if (securityName == "jwt_without_verification") {
+    try {
+      // ignore the expiration
+      return await jwtAuth(token, true);
+    } catch {
+      throw new UnauthorizedError();
+    }
+  } else {
+    throw new UnauthorizedError();
+  }
+}
+
+async function jwtAuth(token: string, ignoreExpiration: boolean = false): Promise<AuthenticatedUser> {
+  const decoded = jwt.verify(token, process.env.JWT_SECRET, {
+    ignoreExpiration,
+  }) as {
+    userId: string;
+    email: string;
+    iss: string;
+    jti: string;
+  };
+
+  const jti = decoded.jti;
+
+  // make sure this JTI is not in the blacklist
+  const blacklisted = await prisma.blacklist.findFirst({
+    where: {
+      object: jti,
+      kind: "jti",
+    },
+  });
+
+  if (blacklisted) {
+    throw new UnauthorizedError();
+  }
+
+  const user: AuthenticatedUser = {
+    id: decoded.userId,
+    email: decoded.email,
+    jti: jti,
+    iss: decoded.iss,
+  };
+
+  return user;
 }
