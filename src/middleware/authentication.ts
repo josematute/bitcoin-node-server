@@ -50,7 +50,7 @@ async function jwtAuth(token: string, ignoreExpiration: boolean = false): Promis
     ignoreExpiration,
   }) as {
     userId: string;
-    email: string;
+    username: string;
     iss: string;
     jti: string;
   };
@@ -71,7 +71,7 @@ async function jwtAuth(token: string, ignoreExpiration: boolean = false): Promis
 
   const user: AuthenticatedUser = {
     id: decoded.userId,
-    email: decoded.email,
+    username: decoded.username,
     jti: jti,
     iss: decoded.iss,
   };

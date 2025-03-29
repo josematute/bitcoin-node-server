@@ -1,7 +1,6 @@
 export interface UserCreationParams {
   name: string;
   username: string;
-  password: string;
 }
 
 export interface User {
@@ -14,4 +13,9 @@ export interface UserAndCredentials {
   user: User;
   token: string;
   refresh: string;
+}
+
+export interface RefreshParams {
+  username: string;
+  refreshToken: string;
 }

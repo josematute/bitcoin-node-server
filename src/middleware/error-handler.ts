@@ -19,9 +19,10 @@ export const errorHandlerMiddleware = (
     customError.statusCode = StatusCodes.BAD_REQUEST;
   }
 
-  res
-    .status(customError.statusCode)
-    .json({ code: customError.statusCode, message: customError.message });
+  res.status(customError.statusCode).json({
+    code: customError.statusCode,
+    message: customError.message
+  });
 };
 
 interface Error {
@@ -30,4 +31,3 @@ interface Error {
   statusCode?: number;
   code?: number;
 }
-

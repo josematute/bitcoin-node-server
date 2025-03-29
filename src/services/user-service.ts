@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 import jwt, { SignOptions } from "jsonwebtoken";
-import { v4 as uuidv4 } from "uuid";
 
 const prisma = new PrismaClient();
 
@@ -16,28 +15,26 @@ export const createUser = async ({ name, username }: {
   });
 };
 
-export const createJWT = (user: { id: string }) => {
-  const uuid = uuidv4();
+export const createJWT = (user: { id: string; username: string }, jti: string) => {
   return jwt.sign(
-    { userId: user.id },
+    { userId: user.id, username: user.username },
     process.env.JWT_SECRET,
     {
       expiresIn: process.env.JWT_EXPIRES,
       issuer: process.env.JWT_ISSUER,
-      jwtid: uuid,
+      jwtid: jti,
     } as SignOptions
   );
 };
 
-export const createRefreshToken = (user: { id: string }) => {
-  const uuid = uuidv4();
+export const createRefreshToken = (user: { id: string; username: string }, jti: string) => {
   return jwt.sign(
-    { userId: user.id },
+    { userId: user.id, username: user.username },
     process.env.REFRESH_SECRET,
     {
       expiresIn: process.env.REFRESH_EXPIRES,
       issuer: process.env.JWT_ISSUER,
-      jwtid: uuid,
+      jwtid: jti,
     } as SignOptions
   );
 };
