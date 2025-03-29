@@ -12,7 +12,8 @@
     "prisma:studio": "npx prisma studio",
     "prisma:status": "npx prisma migrate status",
     "compose": "docker compose up -d",
-    "compose:down": "docker compose down"
+    "compose:down": "docker compose down",
+    "apply": "git fetch && git pull && npm i && sudo docker compose down && sudo docker compose up --build -d && npx prisma migrate deploy && npx prisma generate && npm run dev"
   },
   "repository": {
     "type": "git",
