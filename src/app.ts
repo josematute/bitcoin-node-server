@@ -1,15 +1,15 @@
 import dotenv from "dotenv";
-import express, { json, urlencoded } from "express";
+import express, { json, urlencoded, ErrorRequestHandler } from "express";
 import { connectToDatabase } from "../db/connect";
 import * as swaggerUI from "swagger-ui-express";
 import * as swaggerJson from "./tsoa/tsoa.json";
 import { RegisterRoutes } from "./routes/routes";
+import { errorHandlerMiddleware } from "./middleware/error-handler";
 
 dotenv.config();
 
 const prisma = connectToDatabase();
 const app = express();
-const port = process.env.PORT || 8080;
 
 // middleware for json parsing of request body
 app.use(urlencoded({ extended: true }));
@@ -30,6 +30,11 @@ app.get("/swagger.json", (_, res) => {
 
 // tsoa routes
 RegisterRoutes(app);
+
+// error handler
+app.use(errorHandlerMiddleware as ErrorRequestHandler);
+
+const port = process.env.PORT || 8080;
 
 const start = async () => {
 	try {
