@@ -13,9 +13,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum BlacklistKind {
+  jti
+  refresh
+  token
+}
+
 model User {
   id        String   @id @default(uuid())
   name      String
   username  String   @unique
   createdAt DateTime @default(now())
+}
+
+model Blacklist {
+  id        String        @id @default(uuid())
+  object    String        @unique
+  kind      BlacklistKind
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([object])
+  @@index([kind])
 }
