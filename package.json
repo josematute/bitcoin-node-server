@@ -10,7 +10,9 @@
     "prisma:migrate": "npx prisma migrate dev --name",
     "prisma:generate": "npx prisma generate",
     "prisma:studio": "npx prisma studio",
-    "prisma:status": "npx prisma migrate status"
+    "prisma:status": "npx prisma migrate status",
+    "compose": "docker compose up -d",
+    "compose:down": "docker compose down"
   },
   "repository": {
     "type": "git",
