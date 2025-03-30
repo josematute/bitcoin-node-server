@@ -4,7 +4,7 @@
   "description": "Bitcoin server providing blockchain info and mempool monitoring",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build": "tsoa spec-and-routes && npx tsc",
     "dev": "concurrently \"npx tsc -w\" \"nodemon dist/src/app.js\"",
     "db:migrate": "npx prisma migrate dev --name",
@@ -37,12 +37,17 @@
   "devDependencies": {
     "@types/bcryptjs": "^3.0.0",
     "@types/express": "^5.0.1",
+    "@types/jest": "^29.5.14",
     "@types/jsonwebtoken": "^9.0.9",
+    "@types/supertest": "^6.0.3",
     "@types/swagger-ui-express": "^4.1.8",
     "concurrently": "^9.1.2",
     "husky": "^9.1.7",
+    "jest": "^29.7.0",
     "nodemon": "^3.1.9",
     "prisma": "^6.5.0",
+    "supertest": "^7.1.0",
+    "ts-jest": "^29.3.0",
     "typescript": "^5.8.2"
   },
   "dependencies": {
