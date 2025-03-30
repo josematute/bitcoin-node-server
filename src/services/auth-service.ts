@@ -14,6 +14,7 @@ const prisma = new PrismaClient();
 
 export class AuthService {
   async register({ name, username }: { name: string; username: string }) {
+    console.log(`AuthService.register called, name: ${name}, username: ${username}`);
     const user = await createUser({ name, username });
     const jti = uuidv4();
     const token = createJWT(user, jti);
@@ -30,6 +31,7 @@ export class AuthService {
     params: RefreshParams,
     user: AuthenticatedUser
   ): Promise<UserAndCredentials> {
+    console.log(`AuthService.refresh called, params: ${JSON.stringify(params)}, user: ${JSON.stringify(user)}`);
     const decodedRefreshToken = jwt.verify(
       params.refreshToken,
       process.env.REFRESH_SECRET
@@ -57,8 +59,10 @@ export class AuthService {
           kind: "jti",
         },
       });
+
       console.log("blacklisted", blacklisted);
       if (blacklisted) {
+        console.log("Unauthorized, jwt is blacklisted");
         throw new UnauthorizedError();
       }
 
@@ -78,12 +82,15 @@ export class AuthService {
       });
 
       if (!user) {
+        console.log("Unauthorized, user not found");
         throw new BadRequestError();
       }
 
       const newJti = uuidv4();
       const newToken = createJWT(user, newJti);
       const newRefresh = createRefreshToken(user, newJti);
+
+      console.log("created new token and refresh token");
 
       return {
         user: {

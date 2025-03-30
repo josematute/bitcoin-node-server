@@ -19,6 +19,7 @@ export class AuthController extends Controller {
   public async register(
     @Body() requestBody: UserCreationParams
   ): Promise<UserAndCredentials> {
+    console.log(`/api/v1/auth/register called, body: ${JSON.stringify(requestBody)}`);
     this.setStatus(StatusCodes.CREATED);
     return new AuthService().register(requestBody);
   }
@@ -31,6 +32,7 @@ export class AuthController extends Controller {
     @Request() request: ExpressRequest,
     @Body() requestBody: RefreshParams
   ): Promise<UserAndCredentials> {
+    console.log(`/api/v1/auth/refresh called, body: ${JSON.stringify(requestBody)}`);
     this.setStatus(StatusCodes.OK);
     const user = request.user as AuthenticatedUser;
     return new AuthService().refresh(requestBody, user);
@@ -43,6 +45,7 @@ export class AuthController extends Controller {
   @OperationId("dummy")
   @Security("jwt")
   public async dummy(): Promise<void> {
+    console.log(`/api/v1/auth/dummy called`);
     this.setStatus(StatusCodes.OK);
     return Promise.resolve();
   }
