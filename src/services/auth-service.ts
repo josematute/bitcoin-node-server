@@ -10,6 +10,7 @@ import {
 import { PrismaClient } from "@prisma/client";
 import { BadRequestError, UnauthorizedError } from "../errors";
 import { v4 as uuidv4 } from "uuid";
+
 const prisma = new PrismaClient();
 
 export class AuthService {

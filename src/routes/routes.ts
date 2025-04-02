@@ -17,6 +17,99 @@ const expressAuthenticationRecasted = expressAuthentication as (req: ExRequest, 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
+    "BlockchainInfo": {
+        "dataType": "refObject",
+        "properties": {
+            "chain": {"dataType":"string","required":true},
+            "blocks": {"dataType":"double","required":true},
+            "headers": {"dataType":"double","required":true},
+            "bestblockhash": {"dataType":"string","required":true},
+            "difficulty": {"dataType":"double","required":true},
+            "time": {"dataType":"double","required":true},
+            "mediantime": {"dataType":"double","required":true},
+            "verificationprogress": {"dataType":"double","required":true},
+            "initialblockdownload": {"dataType":"boolean","required":true},
+            "chainwork": {"dataType":"string","required":true},
+            "size_on_disk": {"dataType":"double","required":true},
+            "pruned": {"dataType":"boolean","required":true},
+            "warnings": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "NetworkInfo": {
+        "dataType": "refObject",
+        "properties": {
+            "name": {"dataType":"string","required":true},
+            "limited": {"dataType":"boolean","required":true},
+            "reachable": {"dataType":"boolean","required":true},
+            "proxy": {"dataType":"string","required":true},
+            "proxy_randomize_credentials": {"dataType":"boolean","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "LocalAddress": {
+        "dataType": "refObject",
+        "properties": {
+            "address": {"dataType":"string","required":true},
+            "port": {"dataType":"double","required":true},
+            "score": {"dataType":"double","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "NetworkInfoResponse": {
+        "dataType": "refObject",
+        "properties": {
+            "version": {"dataType":"double","required":true},
+            "subversion": {"dataType":"string","required":true},
+            "protocolversion": {"dataType":"double","required":true},
+            "localservices": {"dataType":"string","required":true},
+            "localservicesnames": {"dataType":"array","array":{"dataType":"string"},"required":true},
+            "localrelay": {"dataType":"boolean","required":true},
+            "timeoffset": {"dataType":"double","required":true},
+            "networkactive": {"dataType":"boolean","required":true},
+            "connections": {"dataType":"double","required":true},
+            "connections_in": {"dataType":"double","required":true},
+            "connections_out": {"dataType":"double","required":true},
+            "networks": {"dataType":"array","array":{"dataType":"refObject","ref":"NetworkInfo"},"required":true},
+            "relayfee": {"dataType":"double","required":true},
+            "incrementalfee": {"dataType":"double","required":true},
+            "localaddresses": {"dataType":"array","array":{"dataType":"refObject","ref":"LocalAddress"},"required":true},
+            "warnings": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "MempoolInfo": {
+        "dataType": "refObject",
+        "properties": {
+            "loaded": {"dataType":"boolean","required":true},
+            "size": {"dataType":"double","required":true},
+            "bytes": {"dataType":"double","required":true},
+            "usage": {"dataType":"double","required":true},
+            "total_fee": {"dataType":"double","required":true},
+            "maxmempool": {"dataType":"double","required":true},
+            "mempoolminfee": {"dataType":"double","required":true},
+            "minrelaytxfee": {"dataType":"double","required":true},
+            "incrementalrelayfee": {"dataType":"double","required":true},
+            "unbroadcastcount": {"dataType":"double","required":true},
+            "fullrbf": {"dataType":"boolean","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "BitcoinAllInfo": {
+        "dataType": "refObject",
+        "properties": {
+            "blockchain": {"ref":"BlockchainInfo","required":true},
+            "network": {"ref":"NetworkInfoResponse","required":true},
+            "mempool": {"ref":"MempoolInfo","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "User": {
         "dataType": "refObject",
         "properties": {
@@ -74,7 +167,7 @@ export function RegisterRoutes(app: Router) {
     
         const argsBitcoinController_getBlockchainInfo: Record<string, TsoaRoute.ParameterSchema> = {
         };
-        app.get('/api/v1/bitcoin/info',
+        app.get('/api/v1/btc/info',
             authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(BitcoinController)),
             ...(fetchMiddlewares<RequestHandler>(BitcoinController.prototype.getBlockchainInfo)),

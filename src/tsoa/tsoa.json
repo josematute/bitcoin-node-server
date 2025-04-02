@@ -7,6 +7,293 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"BlockchainInfo": {
+				"properties": {
+					"chain": {
+						"type": "string"
+					},
+					"blocks": {
+						"type": "number",
+						"format": "double"
+					},
+					"headers": {
+						"type": "number",
+						"format": "double"
+					},
+					"bestblockhash": {
+						"type": "string"
+					},
+					"difficulty": {
+						"type": "number",
+						"format": "double"
+					},
+					"time": {
+						"type": "number",
+						"format": "double"
+					},
+					"mediantime": {
+						"type": "number",
+						"format": "double"
+					},
+					"verificationprogress": {
+						"type": "number",
+						"format": "double"
+					},
+					"initialblockdownload": {
+						"type": "boolean"
+					},
+					"chainwork": {
+						"type": "string"
+					},
+					"size_on_disk": {
+						"type": "number",
+						"format": "double"
+					},
+					"pruned": {
+						"type": "boolean"
+					},
+					"warnings": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"chain",
+					"blocks",
+					"headers",
+					"bestblockhash",
+					"difficulty",
+					"time",
+					"mediantime",
+					"verificationprogress",
+					"initialblockdownload",
+					"chainwork",
+					"size_on_disk",
+					"pruned",
+					"warnings"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"NetworkInfo": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"limited": {
+						"type": "boolean"
+					},
+					"reachable": {
+						"type": "boolean"
+					},
+					"proxy": {
+						"type": "string"
+					},
+					"proxy_randomize_credentials": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"name",
+					"limited",
+					"reachable",
+					"proxy",
+					"proxy_randomize_credentials"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LocalAddress": {
+				"properties": {
+					"address": {
+						"type": "string"
+					},
+					"port": {
+						"type": "number",
+						"format": "double"
+					},
+					"score": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"address",
+					"port",
+					"score"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"NetworkInfoResponse": {
+				"properties": {
+					"version": {
+						"type": "number",
+						"format": "double"
+					},
+					"subversion": {
+						"type": "string"
+					},
+					"protocolversion": {
+						"type": "number",
+						"format": "double"
+					},
+					"localservices": {
+						"type": "string"
+					},
+					"localservicesnames": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"localrelay": {
+						"type": "boolean"
+					},
+					"timeoffset": {
+						"type": "number",
+						"format": "double"
+					},
+					"networkactive": {
+						"type": "boolean"
+					},
+					"connections": {
+						"type": "number",
+						"format": "double"
+					},
+					"connections_in": {
+						"type": "number",
+						"format": "double"
+					},
+					"connections_out": {
+						"type": "number",
+						"format": "double"
+					},
+					"networks": {
+						"items": {
+							"$ref": "#/components/schemas/NetworkInfo"
+						},
+						"type": "array"
+					},
+					"relayfee": {
+						"type": "number",
+						"format": "double"
+					},
+					"incrementalfee": {
+						"type": "number",
+						"format": "double"
+					},
+					"localaddresses": {
+						"items": {
+							"$ref": "#/components/schemas/LocalAddress"
+						},
+						"type": "array"
+					},
+					"warnings": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"version",
+					"subversion",
+					"protocolversion",
+					"localservices",
+					"localservicesnames",
+					"localrelay",
+					"timeoffset",
+					"networkactive",
+					"connections",
+					"connections_in",
+					"connections_out",
+					"networks",
+					"relayfee",
+					"incrementalfee",
+					"localaddresses",
+					"warnings"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"MempoolInfo": {
+				"properties": {
+					"loaded": {
+						"type": "boolean"
+					},
+					"size": {
+						"type": "number",
+						"format": "double"
+					},
+					"bytes": {
+						"type": "number",
+						"format": "double"
+					},
+					"usage": {
+						"type": "number",
+						"format": "double"
+					},
+					"total_fee": {
+						"type": "number",
+						"format": "double"
+					},
+					"maxmempool": {
+						"type": "number",
+						"format": "double"
+					},
+					"mempoolminfee": {
+						"type": "number",
+						"format": "double"
+					},
+					"minrelaytxfee": {
+						"type": "number",
+						"format": "double"
+					},
+					"incrementalrelayfee": {
+						"type": "number",
+						"format": "double"
+					},
+					"unbroadcastcount": {
+						"type": "number",
+						"format": "double"
+					},
+					"fullrbf": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"loaded",
+					"size",
+					"bytes",
+					"usage",
+					"total_fee",
+					"maxmempool",
+					"mempoolminfee",
+					"minrelaytxfee",
+					"incrementalrelayfee",
+					"unbroadcastcount",
+					"fullrbf"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BitcoinAllInfo": {
+				"properties": {
+					"blockchain": {
+						"$ref": "#/components/schemas/BlockchainInfo"
+					},
+					"network": {
+						"$ref": "#/components/schemas/NetworkInfoResponse"
+					},
+					"mempool": {
+						"$ref": "#/components/schemas/MempoolInfo"
+					}
+				},
+				"required": [
+					"blockchain",
+					"network",
+					"mempool"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"User": {
 				"properties": {
 					"id": {
@@ -100,7 +387,7 @@
 		}
 	},
 	"paths": {
-		"/api/v1/bitcoin/info": {
+		"/api/v1/btc/info": {
 			"get": {
 				"operationId": "getBlockchainInfo",
 				"responses": {
@@ -108,7 +395,9 @@
 						"description": "Ok",
 						"content": {
 							"application/json": {
-								"schema": {}
+								"schema": {
+									"$ref": "#/components/schemas/BitcoinAllInfo"
+								}
 							}
 						}
 					}
