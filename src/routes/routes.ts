@@ -100,12 +100,50 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "BitcoinAllInfo": {
+    "BitcoinSummaryInfo": {
         "dataType": "refObject",
         "properties": {
             "blockchain": {"ref":"BlockchainInfo","required":true},
             "network": {"ref":"NetworkInfoResponse","required":true},
             "mempool": {"ref":"MempoolInfo","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Block": {
+        "dataType": "refObject",
+        "properties": {
+            "hash": {"dataType":"string","required":true},
+            "confirmations": {"dataType":"double","required":true},
+            "height": {"dataType":"double","required":true},
+            "version": {"dataType":"double","required":true},
+            "versionHex": {"dataType":"string","required":true},
+            "merkleroot": {"dataType":"string","required":true},
+            "time": {"dataType":"double","required":true},
+            "mediantime": {"dataType":"double","required":true},
+            "nonce": {"dataType":"double","required":true},
+            "bits": {"dataType":"string","required":true},
+            "difficulty": {"dataType":"double","required":true},
+            "chainwork": {"dataType":"string","required":true},
+            "nTx": {"dataType":"double","required":true},
+            "previousblockhash": {"dataType":"string","required":true},
+            "strippedsize": {"dataType":"double","required":true},
+            "size": {"dataType":"double","required":true},
+            "weight": {"dataType":"double","required":true},
+            "tx": {"dataType":"array","array":{"dataType":"string"},"required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "PaginatedBlocksResponse": {
+        "dataType": "refObject",
+        "properties": {
+            "blocks": {"dataType":"array","array":{"dataType":"refObject","ref":"Block"},"required":true},
+            "currentPage": {"dataType":"double","required":true},
+            "totalPages": {"dataType":"double","required":true},
+            "hasNextPage": {"dataType":"boolean","required":true},
+            "nextPageHeight": {"dataType":"double"},
+            "pageSize": {"dataType":"double","required":true},
         },
         "additionalProperties": false,
     },
@@ -184,6 +222,70 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'getBlockchainInfo',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsBitcoinController_getBlockByHash: Record<string, TsoaRoute.ParameterSchema> = {
+                hash: {"in":"path","name":"hash","required":true,"dataType":"string"},
+        };
+        app.get('/api/v1/btc/block/:hash',
+            authenticateMiddleware([{"jwt":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(BitcoinController)),
+            ...(fetchMiddlewares<RequestHandler>(BitcoinController.prototype.getBlockByHash)),
+
+            async function BitcoinController_getBlockByHash(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsBitcoinController_getBlockByHash, request, response });
+
+                const controller = new BitcoinController();
+
+              await templateService.apiHandler({
+                methodName: 'getBlockByHash',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsBitcoinController_getBlocks: Record<string, TsoaRoute.ParameterSchema> = {
+                page: {"in":"query","name":"page","dataType":"double"},
+                pageSize: {"in":"query","name":"pageSize","dataType":"double"},
+                startHeight: {"in":"query","name":"startHeight","dataType":"double"},
+        };
+        app.get('/api/v1/btc/blocks',
+            authenticateMiddleware([{"jwt":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(BitcoinController)),
+            ...(fetchMiddlewares<RequestHandler>(BitcoinController.prototype.getBlocks)),
+
+            async function BitcoinController_getBlocks(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsBitcoinController_getBlocks, request, response });
+
+                const controller = new BitcoinController();
+
+              await templateService.apiHandler({
+                methodName: 'getBlocks',
                 controller,
                 response,
                 next,

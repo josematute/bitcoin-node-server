@@ -1,5 +1,6 @@
 import axios from "axios";
-import { BlockchainInfo, NetworkInfoResponse, MempoolInfo, BitcoinAllInfo, NetworkInfo } from "./models/btc-models";
+import { BlockchainInfo, NetworkInfoResponse, MempoolInfo, BitcoinSummaryInfo, NetworkInfo, Block, PaginatedBlocksResponse, BlockQueryParams } from "./models/btc-models";
+import { BadRequestError } from "../errors";
 
 const rpcUrl = process.env.BITCOIN_RPC_URL!;
 const rpcUser = process.env.BITCOIN_RPC_USER!;
@@ -73,7 +74,7 @@ export class BitcoinService {
     return result;
   }
 
-  public async getAllInfo(): Promise<BitcoinAllInfo> {
+  public async getAllInfo(): Promise<BitcoinSummaryInfo> {
     console.log("[BitcoinService] Getting all Bitcoin info...");
     const [blockchainInfo, networkInfo, mempoolInfo] = await Promise.all([
       this.getBlockchainInfo(),
@@ -89,5 +90,78 @@ export class BitcoinService {
 
     console.log("[BitcoinService] Successfully retrieved all Bitcoin info");
     return result;
+  }
+
+  public async getBlockByHash(hash: string): Promise<Block> {
+    console.log(`[BitcoinService] Getting block by hash: ${hash}`);
+    const result = await this.callRpc("getblock", [hash]);
+    console.log(`[BitcoinService] Block retrieved:`, {
+      hash: result.hash,
+      height: result.height,
+      nTx: result.nTx,
+      time: result.time,
+    });
+    return result;
+  }
+
+  public async getBlockHash(height: number): Promise<string> {
+    console.log(`[BitcoinService] Getting block hash for height: ${height}`);
+    const result = await this.callRpc("getblockhash", [height]);
+    console.log(`[BitcoinService] Block hash retrieved: ${result}`);
+    return result;
+  }
+
+  public async getBlocks(params: BlockQueryParams = {}): Promise<PaginatedBlocksResponse> {
+    const pageSize = params.pageSize || 10;
+    const currentPage = params.page || 1;
+    const startHeight = params.startHeight;
+
+    // Validate page size
+    if (pageSize > 20) {
+      console.error(`[BitcoinService] Page size ${pageSize} exceeds maximum limit of 20`);
+      throw new BadRequestError("Maximum page size is 20 blocks per request");
+    }
+
+    console.log(`[BitcoinService] Getting blocks with params:`, { pageSize, currentPage, startHeight });
+
+    // If no start height provided, get the latest block height
+    let currentHeight = startHeight;
+    if (!currentHeight) {
+      const blockchainInfo = await this.getBlockchainInfo();
+      currentHeight = blockchainInfo.blocks;
+    }
+
+    // Calculate the height range for this page
+    const pageStartHeight = currentHeight - (currentPage - 1) * pageSize;
+    const pageEndHeight = Math.max(0, pageStartHeight - pageSize + 1);
+
+    console.log(`[BitcoinService] Fetching blocks from height ${pageStartHeight} to ${pageEndHeight}`);
+
+    // Get all block hashes for this page
+    const blockHashes = await Promise.all(
+      Array.from({ length: pageStartHeight - pageEndHeight + 1 }, (_, i) =>
+        this.getBlockHash(pageStartHeight - i)
+      )
+    );
+
+    // Get full block information for each hash
+    const blocks = await Promise.all(
+      blockHashes.map(hash => this.getBlockByHash(hash))
+    );
+
+    const totalPages = Math.ceil(currentHeight / pageSize);
+    const hasNextPage = pageEndHeight > 0;
+
+    const response: PaginatedBlocksResponse = {
+      blocks,
+      currentPage,
+      totalPages,
+      hasNextPage,
+      nextPageHeight: hasNextPage ? pageEndHeight - 1 : undefined,
+      pageSize,
+    };
+
+    console.log(`[BitcoinService] Retrieved ${blocks.length} blocks, page ${currentPage} of ${totalPages}`);
+    return response;
   }
 }

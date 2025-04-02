@@ -274,7 +274,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"BitcoinAllInfo": {
+			"BitcoinSummaryInfo": {
 				"properties": {
 					"blockchain": {
 						"$ref": "#/components/schemas/BlockchainInfo"
@@ -290,6 +290,138 @@
 					"blockchain",
 					"network",
 					"mempool"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Block": {
+				"properties": {
+					"hash": {
+						"type": "string"
+					},
+					"confirmations": {
+						"type": "number",
+						"format": "double"
+					},
+					"height": {
+						"type": "number",
+						"format": "double"
+					},
+					"version": {
+						"type": "number",
+						"format": "double"
+					},
+					"versionHex": {
+						"type": "string"
+					},
+					"merkleroot": {
+						"type": "string"
+					},
+					"time": {
+						"type": "number",
+						"format": "double"
+					},
+					"mediantime": {
+						"type": "number",
+						"format": "double"
+					},
+					"nonce": {
+						"type": "number",
+						"format": "double"
+					},
+					"bits": {
+						"type": "string"
+					},
+					"difficulty": {
+						"type": "number",
+						"format": "double"
+					},
+					"chainwork": {
+						"type": "string"
+					},
+					"nTx": {
+						"type": "number",
+						"format": "double"
+					},
+					"previousblockhash": {
+						"type": "string"
+					},
+					"strippedsize": {
+						"type": "number",
+						"format": "double"
+					},
+					"size": {
+						"type": "number",
+						"format": "double"
+					},
+					"weight": {
+						"type": "number",
+						"format": "double"
+					},
+					"tx": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"hash",
+					"confirmations",
+					"height",
+					"version",
+					"versionHex",
+					"merkleroot",
+					"time",
+					"mediantime",
+					"nonce",
+					"bits",
+					"difficulty",
+					"chainwork",
+					"nTx",
+					"previousblockhash",
+					"strippedsize",
+					"size",
+					"weight",
+					"tx"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PaginatedBlocksResponse": {
+				"properties": {
+					"blocks": {
+						"items": {
+							"$ref": "#/components/schemas/Block"
+						},
+						"type": "array"
+					},
+					"currentPage": {
+						"type": "number",
+						"format": "double"
+					},
+					"totalPages": {
+						"type": "number",
+						"format": "double"
+					},
+					"hasNextPage": {
+						"type": "boolean"
+					},
+					"nextPageHeight": {
+						"type": "number",
+						"format": "double"
+					},
+					"pageSize": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"blocks",
+					"currentPage",
+					"totalPages",
+					"hasNextPage",
+					"pageSize"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -396,7 +528,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/BitcoinAllInfo"
+									"$ref": "#/components/schemas/BitcoinSummaryInfo"
 								}
 							}
 						}
@@ -411,6 +543,95 @@
 					}
 				],
 				"parameters": []
+			}
+		},
+		"/api/v1/btc/block/{hash}": {
+			"get": {
+				"operationId": "getBlockByHash",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Block"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Bitcoin"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "hash",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/v1/btc/blocks": {
+			"get": {
+				"operationId": "getBlocks",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PaginatedBlocksResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Bitcoin"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "pageSize",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "startHeight",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			}
 		},
 		"/api/v1/auth/register": {

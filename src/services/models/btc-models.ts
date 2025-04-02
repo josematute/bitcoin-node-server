@@ -61,8 +61,48 @@ export interface MempoolInfo {
   fullrbf: boolean;
 }
 
-export interface BitcoinAllInfo {
+export interface BitcoinSummaryInfo {
   blockchain: BlockchainInfo;
   network: NetworkInfoResponse;
   mempool: MempoolInfo;
+}
+
+export interface BlockTransaction {
+  hash: string;
+}
+
+export interface Block {
+  hash: string;
+  confirmations: number;
+  height: number;
+  version: number;
+  versionHex: string;
+  merkleroot: string;
+  time: number;
+  mediantime: number;
+  nonce: number;
+  bits: string;
+  difficulty: number;
+  chainwork: string;
+  nTx: number;
+  previousblockhash: string;
+  strippedsize: number;
+  size: number;
+  weight: number;
+  tx: string[];
+}
+
+export interface PaginatedBlocksResponse {
+  blocks: Block[];
+  currentPage: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  nextPageHeight?: number;
+  pageSize: number;
+}
+
+export interface BlockQueryParams {
+  page?: number;
+  pageSize?: number;
+  startHeight?: number;
 }
