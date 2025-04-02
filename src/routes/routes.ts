@@ -148,6 +148,59 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "TransactionInput": {
+        "dataType": "refObject",
+        "properties": {
+            "coinbase": {"dataType":"string"},
+            "txinwitness": {"dataType":"array","array":{"dataType":"string"}},
+            "sequence": {"dataType":"double","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ScriptPubKey": {
+        "dataType": "refObject",
+        "properties": {
+            "asm": {"dataType":"string","required":true},
+            "desc": {"dataType":"string","required":true},
+            "hex": {"dataType":"string","required":true},
+            "address": {"dataType":"string"},
+            "type": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "TransactionOutput": {
+        "dataType": "refObject",
+        "properties": {
+            "value": {"dataType":"double","required":true},
+            "n": {"dataType":"double","required":true},
+            "scriptPubKey": {"ref":"ScriptPubKey","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Transaction": {
+        "dataType": "refObject",
+        "properties": {
+            "txid": {"dataType":"string","required":true},
+            "hash": {"dataType":"string","required":true},
+            "version": {"dataType":"double","required":true},
+            "size": {"dataType":"double","required":true},
+            "vsize": {"dataType":"double","required":true},
+            "weight": {"dataType":"double","required":true},
+            "locktime": {"dataType":"double","required":true},
+            "vin": {"dataType":"array","array":{"dataType":"refObject","ref":"TransactionInput"},"required":true},
+            "vout": {"dataType":"array","array":{"dataType":"refObject","ref":"TransactionOutput"},"required":true},
+            "hex": {"dataType":"string","required":true},
+            "blockhash": {"dataType":"string","required":true},
+            "confirmations": {"dataType":"double","required":true},
+            "time": {"dataType":"double","required":true},
+            "blocktime": {"dataType":"double","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "User": {
         "dataType": "refObject",
         "properties": {
@@ -286,6 +339,37 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'getBlocks',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsBitcoinController_getTransaction: Record<string, TsoaRoute.ParameterSchema> = {
+                txid: {"in":"path","name":"txid","required":true,"dataType":"string"},
+        };
+        app.get('/api/v1/btc/tx/:txid',
+            authenticateMiddleware([{"jwt":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(BitcoinController)),
+            ...(fetchMiddlewares<RequestHandler>(BitcoinController.prototype.getTransaction)),
+
+            async function BitcoinController_getTransaction(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsBitcoinController_getTransaction, request, response });
+
+                const controller = new BitcoinController();
+
+              await templateService.apiHandler({
+                methodName: 'getTransaction',
                 controller,
                 response,
                 next,

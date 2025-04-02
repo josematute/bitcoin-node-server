@@ -426,6 +426,155 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"TransactionInput": {
+				"properties": {
+					"coinbase": {
+						"type": "string"
+					},
+					"txinwitness": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"sequence": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"sequence"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ScriptPubKey": {
+				"properties": {
+					"asm": {
+						"type": "string"
+					},
+					"desc": {
+						"type": "string"
+					},
+					"hex": {
+						"type": "string"
+					},
+					"address": {
+						"type": "string"
+					},
+					"type": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"asm",
+					"desc",
+					"hex",
+					"type"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TransactionOutput": {
+				"properties": {
+					"value": {
+						"type": "number",
+						"format": "double"
+					},
+					"n": {
+						"type": "number",
+						"format": "double"
+					},
+					"scriptPubKey": {
+						"$ref": "#/components/schemas/ScriptPubKey"
+					}
+				},
+				"required": [
+					"value",
+					"n",
+					"scriptPubKey"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Transaction": {
+				"properties": {
+					"txid": {
+						"type": "string"
+					},
+					"hash": {
+						"type": "string"
+					},
+					"version": {
+						"type": "number",
+						"format": "double"
+					},
+					"size": {
+						"type": "number",
+						"format": "double"
+					},
+					"vsize": {
+						"type": "number",
+						"format": "double"
+					},
+					"weight": {
+						"type": "number",
+						"format": "double"
+					},
+					"locktime": {
+						"type": "number",
+						"format": "double"
+					},
+					"vin": {
+						"items": {
+							"$ref": "#/components/schemas/TransactionInput"
+						},
+						"type": "array"
+					},
+					"vout": {
+						"items": {
+							"$ref": "#/components/schemas/TransactionOutput"
+						},
+						"type": "array"
+					},
+					"hex": {
+						"type": "string"
+					},
+					"blockhash": {
+						"type": "string"
+					},
+					"confirmations": {
+						"type": "number",
+						"format": "double"
+					},
+					"time": {
+						"type": "number",
+						"format": "double"
+					},
+					"blocktime": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"txid",
+					"hash",
+					"version",
+					"size",
+					"vsize",
+					"weight",
+					"locktime",
+					"vin",
+					"vout",
+					"hex",
+					"blockhash",
+					"confirmations",
+					"time",
+					"blocktime"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"User": {
 				"properties": {
 					"id": {
@@ -629,6 +778,41 @@
 						"schema": {
 							"format": "double",
 							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/api/v1/btc/tx/{txid}": {
+			"get": {
+				"operationId": "getTransaction",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Transaction"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Bitcoin"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "txid",
+						"required": true,
+						"schema": {
+							"type": "string"
 						}
 					}
 				]

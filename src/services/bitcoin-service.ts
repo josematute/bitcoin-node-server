@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BlockchainInfo, NetworkInfoResponse, MempoolInfo, BitcoinSummaryInfo, NetworkInfo, Block, PaginatedBlocksResponse, BlockQueryParams } from "./models/btc-models";
+import { BlockchainInfo, NetworkInfoResponse, MempoolInfo, BitcoinSummaryInfo, NetworkInfo, Block, PaginatedBlocksResponse, BlockQueryParams, Transaction } from "./models/btc-models";
 import { BadRequestError } from "../errors";
 
 const rpcUrl = process.env.BITCOIN_RPC_URL!;
@@ -163,5 +163,18 @@ export class BitcoinService {
 
     console.log(`[BitcoinService] Retrieved ${blocks.length} blocks, page ${currentPage} of ${totalPages}`);
     return response;
+  }
+
+  public async getTransaction(txid: string): Promise<Transaction> {
+    console.log(`[BitcoinService] Getting transaction: ${txid}`);
+    const result = await this.callRpc("getrawtransaction", [txid, true]);
+    console.log(`[BitcoinService] Transaction retrieved:`, {
+      txid: result.txid,
+      confirmations: result.confirmations,
+      size: result.size,
+      vout: result.vout.length,
+      time: result.time,
+    });
+    return result;
   }
 }

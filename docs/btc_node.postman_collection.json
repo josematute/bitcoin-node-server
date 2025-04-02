@@ -1,0 +1,294 @@
+{
+	"info": {
+		"_postman_id": "9e2c0e89-9b84-4218-96bc-d548de1e837e",
+		"name": "btc_node",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15887914"
+	},
+	"item": [
+		{
+			"name": "dummy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v{{version}}/auth/dummy",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v{{version}}",
+						"auth",
+						"dummy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"jeg3\",\n  \"username\": \"jeg3\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/v{{version}}/auth/register",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v{{version}}",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "jeg3_creation",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"jeg3\",\n  \"username\": \"jeg3\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v{{version}}/auth/register",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v{{version}}",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "733"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2dd-k6e3mPa58IhclFfgreVYi9rPSRo\""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 02 Apr 2025 03:06:38 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"user\": {\n        \"id\": \"676afc7f-cccd-445e-9093-e97ecabe12bb\",\n        \"name\": \"jeg3\",\n        \"username\": \"jeg3\",\n        \"createdAt\": \"2025-04-02T03:06:38.063Z\"\n    },\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzZhZmM3Zi1jY2NkLTQ0NWUtOTA5My1lOTdlY2FiZTEyYmIiLCJ1c2VybmFtZSI6ImplZzMiLCJpYXQiOjE3NDM1NjMxOTgsImV4cCI6MTc0MzU2Mzc5OCwiaXNzIjoiamVnIiwianRpIjoiNjQ5YzBkYzEtNTFmYS00YjMxLTllZTAtYTA3NzUwNDhlZDNmIn0.HA17rPm_mTU_HmE1kXS76dnqnIOJj0xG9G446WawK4g\",\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzZhZmM3Zi1jY2NkLTQ0NWUtOTA5My1lOTdlY2FiZTEyYmIiLCJ1c2VybmFtZSI6ImplZzMiLCJpYXQiOjE3NDM1NjMxOTgsImV4cCI6MTc1MTMzOTE5OCwiaXNzIjoiamVnIiwianRpIjoiNjQ5YzBkYzEtNTFmYS00YjMxLTllZTAtYTA3NzUwNDhlZDNmIn0.q63r-C_DVPP8k5A2UnMM-ig1JV0WOVQ93dNzFLEm_vM\"\n}"
+				}
+			]
+		},
+		{
+			"name": "refresh",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"jeg2\",\n  \"refreshToken\": \"{{refresh}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/v{{version}}/auth/refresh",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v{{version}}",
+						"auth",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "btc_info",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v{{version}}/btc/info",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v{{version}}",
+						"btc",
+						"info"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "block_hash",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v{{version}}/btc/block/00000000000000000000058bca37954dc610a948bd0d616deacb90e4c19fb889",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v{{version}}",
+						"btc",
+						"block",
+						"00000000000000000000058bca37954dc610a948bd0d616deacb90e4c19fb889"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "blocks_paginated",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v{{version}}/btc/blocks?pageSize=2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v{{version}}",
+						"btc",
+						"blocks"
+					],
+					"query": [
+						{
+							"key": "pageSize",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "tx",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v{{version}}/btc/tx/69fe359aa0f404227fe3dc73cdbc7d85e62f3865ac7aa16f07d4ff2c8d57f95d",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v{{version}}",
+						"btc",
+						"tx",
+						"69fe359aa0f404227fe3dc73cdbc7d85e62f3865ac7aa16f07d4ff2c8d57f95d"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlMmIzNzQ1MS1iNTE3LTRmYzEtOTQwMS1kOTk2MTA0MTI2YWEiLCJ1c2VybmFtZSI6ImplZzIiLCJpYXQiOjE3NDM1NjI4MTksImV4cCI6MTc0MzU2MzQxOSwiaXNzIjoiamVnIiwianRpIjoiZmViNTMwYTUtNzEwOS00NDQ1LTgyNGMtOTY5ZGE0ZjlkOGU5In0.-JzO3QTHrzlMYD7mYOXWOZyiChqB_3lswip4uQOqHF0",
+			"type": "string"
+		},
+		{
+			"key": "host",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "version",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "refresh",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlMmIzNzQ1MS1iNTE3LTRmYzEtOTQwMS1kOTk2MTA0MTI2YWEiLCJ1c2VybmFtZSI6ImplZzIiLCJpYXQiOjE3NDM1NjI4MTksImV4cCI6MTc1MTMzODgxOSwiaXNzIjoiamVnIiwianRpIjoiZmViNTMwYTUtNzEwOS00NDQ1LTgyNGMtOTY5ZGE0ZjlkOGU5In0.mq_GUyr5qn7qNHq0KXtBsgovyXfRDwm6WYVeWXNa9dM",
+			"type": "string"
+		}
+	]
+}

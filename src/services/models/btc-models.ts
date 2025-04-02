@@ -106,3 +106,40 @@ export interface BlockQueryParams {
   pageSize?: number;
   startHeight?: number;
 }
+
+export interface ScriptPubKey {
+  asm: string;
+  desc: string;
+  hex: string;
+  address?: string;
+  type: string;
+}
+
+export interface TransactionInput {
+  coinbase?: string;
+  txinwitness?: string[];
+  sequence: number;
+}
+
+export interface TransactionOutput {
+  value: number;
+  n: number;
+  scriptPubKey: ScriptPubKey;
+}
+
+export interface Transaction {
+  txid: string;
+  hash: string;
+  version: number;
+  size: number;
+  vsize: number;
+  weight: number;
+  locktime: number;
+  vin: TransactionInput[];
+  vout: TransactionOutput[];
+  hex: string;
+  blockhash: string;
+  confirmations: number;
+  time: number;
+  blocktime: number;
+}

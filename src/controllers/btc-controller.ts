@@ -1,7 +1,7 @@
 import { Controller, Get, Route, Tags, Security, OperationId, Path, Query } from "tsoa";
 import { StatusCodes } from "http-status-codes";
 import { BitcoinService } from "../services/bitcoin-service";
-import { BitcoinSummaryInfo, Block, PaginatedBlocksResponse } from "../services/models/btc-models";
+import { BitcoinSummaryInfo, Block, PaginatedBlocksResponse, Transaction } from "../services/models/btc-models";
 
 @Route("/api/v1/btc")
 @Tags("Bitcoin")
@@ -67,5 +67,23 @@ export class BitcoinController extends Controller {
     });
     this.setStatus(StatusCodes.OK);
     return blocks;
+  }
+
+  @Get("tx/{txid}")
+  @Security("jwt")
+  @OperationId("getTransaction")
+  public async getTransaction(@Path() txid: string): Promise<Transaction> {
+    console.log(`[BitcoinController] Getting transaction: ${txid}`);
+    const service = new BitcoinService();
+    const transaction = await service.getTransaction(txid);
+    console.log(`[BitcoinController] Successfully retrieved transaction:`, {
+      txid: transaction.txid,
+      confirmations: transaction.confirmations,
+      size: transaction.size,
+      vout: transaction.vout.length,
+      time: transaction.time,
+    });
+    this.setStatus(StatusCodes.OK);
+    return transaction;
   }
 }
