@@ -37,16 +37,4 @@ export class AuthController extends Controller {
     const user = request.user as AuthenticatedUser;
     return new AuthService().refresh(requestBody, user);
   }
-
-  // TODO: remove this dummy endpoint later when
-  // we have proper endpoints that use our
-  // authentication mechanism
-  @Post("dummy")
-  @OperationId("dummy")
-  @Security("jwt")
-  public async dummy(): Promise<void> {
-    console.log(`/api/v1/auth/dummy called`);
-    this.setStatus(StatusCodes.OK);
-    return Promise.resolve();
-  }
 }
