@@ -1,11 +1,12 @@
 import jwt from "jsonwebtoken";
 import AuthenticatedUser from "src/middleware/models/authenticated-user";
-import { RefreshParams, UserAndCredentials } from "./models/auth-models";
+import { LoginParams, RefreshParams, UserAndCredentials, UserCreationParams } from "./models/auth-models";
 import {
   createUser,
   createJWT,
   createRefreshToken,
   serializeUser,
+  verifyPassword
 } from "./user-service";
 import { PrismaClient } from "@prisma/client";
 import { BadRequestError, UnauthorizedError } from "../errors";
@@ -14,15 +15,50 @@ import { v4 as uuidv4 } from "uuid";
 const prisma = new PrismaClient();
 
 export class AuthService {
-  async register({ name, username }: { name: string; username: string }) {
-    console.log(`AuthService.register called, name: ${name}, username: ${username}`);
-    const user = await createUser({ name, username });
+  public async register(params: UserCreationParams): Promise<UserAndCredentials> {
+    console.log(`AuthService.register called, name: ${params.name}, username: ${params.username}`);
+    const user = await createUser(params);
     const jti = uuidv4();
     const token = createJWT(user, jti);
     const refresh = createRefreshToken(user, jti);
 
     return {
       user: serializeUser(user),
+      token,
+      refresh,
+    };
+  }
+
+  public async login(params: LoginParams): Promise<UserAndCredentials> {
+    console.log(`AuthService.login called, username: ${params.username}`);
+    const user = await prisma.user.findUnique({
+      where: {
+        username: params.username,
+      },
+    });
+
+    if (!user) {
+      console.log("Unauthorized, user not found");
+      throw new UnauthorizedError();
+    }
+
+    const isCorrectPassword = await verifyPassword(params.password, user.password);
+    if (!isCorrectPassword) {
+      console.log("Unauthorized, password is incorrect");
+      throw new UnauthorizedError();
+    }
+
+    const jti = uuidv4();
+    const token = createJWT(user, jti);
+    const refresh = createRefreshToken(user, jti);
+
+    return {
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        username: user.username,
+      },
       token,
       refresh,
     };
@@ -98,6 +134,7 @@ export class AuthService {
           id: user.id,
           name: user.name,
           username: user.username,
+          email: user.email,
         },
         token: newToken,
         refresh: newRefresh,

@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
-import { UnauthorizedError } from "../errors";
 import AuthenticatedUser from "./models/authenticated-user";
 import { Request } from "express";
+import { UnauthorizedError } from "../errors";
 
 const prisma = new PrismaClient();
 
@@ -57,6 +57,7 @@ async function jwtAuth(token: string, ignoreExpiration: boolean = false): Promis
   }) as {
     userId: string;
     username: string;
+    email: string;
     iss: string;
     jti: string;
   };
@@ -79,6 +80,7 @@ async function jwtAuth(token: string, ignoreExpiration: boolean = false): Promis
   const user: AuthenticatedUser = {
     id: decoded.userId,
     username: decoded.username,
+    email: decoded.email,
     jti: jti,
     iss: decoded.iss,
   };

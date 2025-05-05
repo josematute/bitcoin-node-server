@@ -3,4 +3,5 @@ export default interface AuthenticatedUser {
   jti: string;
   iss: string;
   username: string;
+  email: string;
 }

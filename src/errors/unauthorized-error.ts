@@ -10,4 +10,3 @@ export class UnauthorizedError extends CustomApiError {
     Object.setPrototypeOf(this, new.target.prototype);
   }
 }
-

@@ -585,12 +585,16 @@
 					},
 					"username": {
 						"type": "string"
+					},
+					"email": {
+						"type": "string"
 					}
 				},
 				"required": [
 					"id",
 					"name",
-					"username"
+					"username",
+					"email"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -617,16 +621,40 @@
 			},
 			"UserCreationParams": {
 				"properties": {
+					"email": {
+						"type": "string"
+					},
 					"name": {
 						"type": "string"
 					},
 					"username": {
 						"type": "string"
+					},
+					"password": {
+						"type": "string"
 					}
 				},
 				"required": [
+					"email",
 					"name",
-					"username"
+					"username",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LoginParams": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"username",
+					"password"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -844,6 +872,38 @@
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/UserCreationParams"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/auth/login": {
+			"post": {
+				"operationId": "loginUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserAndCredentials"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LoginParams"
 							}
 						}
 					}

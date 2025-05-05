@@ -13,11 +13,17 @@ export const errorHandlerMiddleware = (
     statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
   };
 
+  console.log("errorHandlerMiddleware err", err);
+  console.log("errorHandlerMiddleware err.message", err.message);
+  console.log("errorHandlerMiddleware err.statusCode", err.statusCode);
+
   // Handle Prisma unique constraint violation
   if (err instanceof PrismaClientKnownRequestError && err.code === 'P2002') {
     customError.message = "User already exists!";
     customError.statusCode = StatusCodes.BAD_REQUEST;
   }
+
+  console.log("errorHandlerMiddleware customError about to be sent", customError);
 
   res.status(customError.statusCode).json({
     code: customError.statusCode,

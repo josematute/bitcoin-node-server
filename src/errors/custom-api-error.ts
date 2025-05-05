@@ -9,4 +9,3 @@ export class CustomApiError extends Error {
     this.statusCode = statusCode;
   }
 }
-
