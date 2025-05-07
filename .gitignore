@@ -12,3 +12,6 @@ dist/
 .prisma/
 
 temp/
+
+*.sh
+deploy-webhook-server.js
