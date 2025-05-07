@@ -13,8 +13,8 @@ export const errorHandlerMiddleware = (
     statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
   };
 
-  console.log("errorHandlerMiddleware  err.message", err.message);
-  console.log("errorHandlerMiddleware  err.statusCode", err.statusCode);
+  console.log("errorHandlerMiddleware err.message", err.message);
+  console.log("errorHandlerMiddleware err.statusCode", err.statusCode);
 
   // Handle Prisma unique constraint violation
   if (err instanceof PrismaClientKnownRequestError && err.code === 'P2002') {
