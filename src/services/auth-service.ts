@@ -38,13 +38,13 @@ export class AuthService {
     });
 
     if (!user) {
-      console.log("Unauthorized, user not found");
+      console.log("AuthService.login Unauthorized, user not found");
       throw new UnauthorizedError();
     }
 
     const isCorrectPassword = await verifyPassword(params.password, user.password);
     if (!isCorrectPassword) {
-      console.log("Unauthorized, password is incorrect");
+      console.log("AuthService.login Unauthorized, password is incorrect");
       throw new UnauthorizedError();
     }
 

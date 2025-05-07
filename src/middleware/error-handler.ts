@@ -13,7 +13,6 @@ export const errorHandlerMiddleware = (
     statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
   };
 
-  console.log("errorHandlerMiddleware err", err);
   console.log("errorHandlerMiddleware err.message", err.message);
   console.log("errorHandlerMiddleware err.statusCode", err.statusCode);
 
