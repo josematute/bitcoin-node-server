@@ -5,6 +5,7 @@ import * as swaggerJson from "./tsoa/tsoa.json";
 import { RegisterRoutes } from "./routes/routes";
 import { errorHandlerMiddleware } from "./middleware/error-handler";
 import rateLimit from "express-rate-limit";
+// import cors from "cors";
 
 dotenv.config();
 
@@ -39,6 +40,27 @@ const rateLimiter = rateLimit({
 	},
 });
 
+// const allowedOrigins = [
+// 	"https://btc.j3g.dev",   // production
+// 	"http://localhost:3000", // local dev
+// ];
+
+// const corsOptions: cors.CorsOptions = {
+// 	origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+// 		console.log(`🔍 CORS check - Origin: "${origin}"`);
+
+// 		// Allow undefined origin for local development (same-origin requests)
+// 		if (!origin || allowedOrigins.includes(origin)) {
+// 			callback(null, true);
+// 		} else {
+// 			console.warn(`❌ Blocked CORS request from: ${origin}`);
+// 			callback(new Error("Not allowed by CORS"));
+// 		}
+// 	},
+// 	optionsSuccessStatus: 200,
+// };
+
+// app.use(cors(corsOptions));
 app.use(rateLimiter);
 
 // tsoa routes
