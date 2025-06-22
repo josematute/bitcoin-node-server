@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "build": "tsoa spec-and-routes && npx tsc",
+    "start": "node dist/app.js",
     "dev": "concurrently \"npx tsc -w\" \"nodemon dist/app.js\"",
     "prepare": "husky"
   },
