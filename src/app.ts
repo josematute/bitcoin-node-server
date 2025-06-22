@@ -4,6 +4,7 @@ import * as swaggerUI from "swagger-ui-express";
 import * as swaggerJson from "./tsoa/tsoa.json";
 import { RegisterRoutes } from "./routes/routes";
 import { errorHandlerMiddleware } from "./middleware/error-handler";
+import rateLimit from "express-rate-limit";
 
 dotenv.config();
 
@@ -25,6 +26,20 @@ app.get("/swagger.json", (_, res) => {
 	res.setHeader("Content-Type", "application/json");
 	res.sendFile(__dirname + "/tsoa/tsoa.json");
 });
+
+const rateLimiter = rateLimit({
+	windowMs: 60 * 1000, // 1 minute
+	max: 10, // lower it for easy testing
+	standardHeaders: true,
+	legacyHeaders: false,
+	handler: (req, res, _next) => {
+		const ip = req.ip;
+		console.warn(`⚠️ Rate limit hit for IP: ${ip}`);
+		res.status(429).json({ error: "Too many requests, chill for a bit." });
+	},
+});
+
+app.use(rateLimiter);
 
 // tsoa routes
 RegisterRoutes(app);

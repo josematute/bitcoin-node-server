@@ -10,16 +10,8 @@ export class BitcoinService {
     const rpcUser = process.env.BITCOIN_RPC_USER;
     const rpcPass = process.env.BITCOIN_RPC_PASS;
 
-    if (!rpcUrl) {
-      throw new Error('BITCOIN_RPC_URL environment variable is not set');
-    }
-
-    if (!rpcUser) {
-      throw new Error('BITCOIN_RPC_USER environment variable is not set');
-    }
-
-    if (!rpcPass) {
-      throw new Error('BITCOIN_RPC_PASS environment variable is not set');
+    if (!rpcUrl || !rpcUser || !rpcPass) {
+      throw new Error('Connection to Bitcoin node failed.');
     }
 
     console.log(`[BitcoinService] Calling RPC method: ${method} with params:`, params);
