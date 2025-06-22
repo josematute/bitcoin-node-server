@@ -1,4 +1,4 @@
-import { Controller, Get, Route, Tags, Security, OperationId, Path, Query } from "tsoa";
+import { Controller, Get, Route, Tags, OperationId, Path, Query } from "tsoa";
 import { StatusCodes } from "http-status-codes";
 import { BitcoinService } from "../services/bitcoin-service";
 import { BitcoinSummaryInfo, Block, PaginatedBlocksResponse, Transaction } from "../services/models/btc-models";
@@ -7,7 +7,6 @@ import { BitcoinSummaryInfo, Block, PaginatedBlocksResponse, Transaction } from 
 @Tags("Bitcoin")
 export class BitcoinController extends Controller {
   @Get("info")
-  @Security("jwt")
   @OperationId("getBlockchainInfo")
   public async getBlockchainInfo(): Promise<BitcoinSummaryInfo> {
     console.log("[BitcoinController] Getting Bitcoin info...");
@@ -32,7 +31,6 @@ export class BitcoinController extends Controller {
   }
 
   @Get("block/{hash}")
-  @Security("jwt")
   @OperationId("getBlockByHash")
   public async getBlockByHash(@Path() hash: string): Promise<Block> {
     console.log(`[BitcoinController] Getting block by hash: ${hash}`);
@@ -49,7 +47,6 @@ export class BitcoinController extends Controller {
   }
 
   @Get("blocks")
-  @Security("jwt")
   @OperationId("getBlocks")
   public async getBlocks(
     @Query() page?: number,
@@ -70,7 +67,6 @@ export class BitcoinController extends Controller {
   }
 
   @Get("tx/{txid}")
-  @Security("jwt")
   @OperationId("getTransaction")
   public async getTransaction(@Path() txid: string): Promise<Transaction> {
     console.log(`[BitcoinController] Getting transaction: ${txid}`);

@@ -2,14 +2,26 @@ import axios from "axios";
 import { BlockchainInfo, NetworkInfoResponse, MempoolInfo, BitcoinSummaryInfo, NetworkInfo, Block, PaginatedBlocksResponse, BlockQueryParams, Transaction } from "./models/btc-models";
 import { BadRequestError } from "../errors";
 
-const rpcUrl = process.env.BITCOIN_RPC_URL!;
-const rpcUser = process.env.BITCOIN_RPC_USER!;
-const rpcPass = process.env.BITCOIN_RPC_PASS!;
-
 let rpcId = 0;
 
 export class BitcoinService {
   private async callRpc(method: string, params: any[] = []) {
+    const rpcUrl = process.env.BITCOIN_RPC_URL;
+    const rpcUser = process.env.BITCOIN_RPC_USER;
+    const rpcPass = process.env.BITCOIN_RPC_PASS;
+
+    if (!rpcUrl) {
+      throw new Error('BITCOIN_RPC_URL environment variable is not set');
+    }
+
+    if (!rpcUser) {
+      throw new Error('BITCOIN_RPC_USER environment variable is not set');
+    }
+
+    if (!rpcPass) {
+      throw new Error('BITCOIN_RPC_PASS environment variable is not set');
+    }
+
     console.log(`[BitcoinService] Calling RPC method: ${method} with params:`, params);
     const response = await axios.post(
       rpcUrl,

@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 import express, { json, urlencoded, ErrorRequestHandler } from "express";
-import { connectToDatabase } from "../db/connect";
 import * as swaggerUI from "swagger-ui-express";
 import * as swaggerJson from "./tsoa/tsoa.json";
 import { RegisterRoutes } from "./routes/routes";
@@ -8,7 +7,6 @@ import { errorHandlerMiddleware } from "./middleware/error-handler";
 
 dotenv.config();
 
-const prisma = connectToDatabase();
 const app = express();
 
 // middleware for json parsing of request body
@@ -38,9 +36,6 @@ const port = process.env.PORT || 8080;
 
 const start = async () => {
 	try {
-		console.log("🔄 Connecting to Postgres (via Prisma)...");
-		await prisma.$connect();
-		console.log("✅ Connected to Postgres!");
 		console.log("🚀 Starting server...");
 
 		app.listen(port, "0.0.0.0", () => {
