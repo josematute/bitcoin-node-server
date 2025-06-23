@@ -30,7 +30,7 @@ app.get("/swagger.json", (_, res) => {
 
 const rateLimiter = rateLimit({
 	windowMs: 60 * 1000, // 1 minute
-	max: 10, // lower it for easy testing
+	max: 25, // lower it for easy testing
 	standardHeaders: true,
 	legacyHeaders: false,
 	handler: (req, res, _next) => {
